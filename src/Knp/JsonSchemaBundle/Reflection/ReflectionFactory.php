@@ -33,7 +33,10 @@ class ReflectionFactory
         foreach ($this->finder->getIterator() as $name) {
             $baseName      = substr($name, strlen($directory)+1, -4);
             $baseClassName = str_replace('/', '\\', $baseName);
-            $refClasses[]  = $this->create($namespace.'\\'.$baseClassName);
+            $className = $namespace.'\\'.$baseClassName;
+            if(class_exists($className)) {
+                $refClasses[] = $this->create($className);
+            }
         }
 
         return $refClasses;
